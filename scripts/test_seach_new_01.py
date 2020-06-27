@@ -3,6 +3,7 @@ import pytest, time
 from selenium.webdriver.common.by import By
 from Page.searchPage import SearchPage
 from Base.driver import Driver
+import allure
 
 
 class Test_Search:
@@ -16,9 +17,11 @@ class Test_Search:
         Driver.quit_app_driver()
 
     # 因为只需要运行一次 并且是依赖方法，所以使用fixture工厂函数
+    @allure.step("点击搜索方法")
     @pytest.fixture(scope="class", autouse=True)
     def click_search_btn(self):
         """点击搜索按钮 并且 点击一次"""
+        allure.attach("点击搜索按钮","点击")
         self.sp_obj.click_search_btn()
 
     @pytest.mark.parametrize("search_data, exp_data", [("1", "休眠"), ("i", "IP地址"), ("m", "MAC地址")])
